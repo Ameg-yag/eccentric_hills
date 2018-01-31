@@ -1,5 +1,5 @@
 # ECCENTRIC_HILLS (ECHI)
-![](https://github.com/acrinklaw/eccentric-hills/blob/master/img/echi.gif)
+![](https://github.com/acrinklaw/eccentric-hills/blob/master/img/echi1.png)
 ## Description
 
 Collaboration project between Gunnar Jones, Austin Crinklaw, and Zachary Passmore. It is a  simple, cross-platform python remote access tool.
