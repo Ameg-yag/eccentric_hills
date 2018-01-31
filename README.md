@@ -12,7 +12,7 @@ Collaboration project between Gunnar Jones, Austin Crinklaw, and Zachary Passmor
 ### Disclaimer
 This project is made for educational purposes only and will be used in a controlled environment. Malicious use of this tool is prohibited.
 
-#### Quick Links
+### Quick Links
 * [Todo List and Features](https://github.com/acrinklaw/eccentric_hills/blob/master/resource/todo.md)
 * [Other Python RATs](https://github.com/acrinklaw/eccentric_hills/blob/master/resource/pyRats.md)
 * [Black Hat Python](https://pythonizame.s3.amazonaws.com/media/Book/black-hat-python/file/af0ef90e-83cf-11e5-964d-04015fb6ba01.pdf)
