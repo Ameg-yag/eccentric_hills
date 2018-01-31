@@ -9,5 +9,5 @@ Collaboration project between Gunnar Jones, Austin Crinklaw, and Zachary Passmor
 * It is a preferred method of Administration over SSH due to the ability to use custom binaries and configurable connections.
 * Python was chosen as both developers wish to expand knowledge in the language as well as network based scripting and tools.
 
-# DISCLAIMER
+### Disclaimer
 * This project is made for educational purposes only and will be used in a controlled environment. Malicious use of this tool is prohibited.
