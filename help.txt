@@ -13,3 +13,5 @@ Connect -- Connects to server via socket
 Quit -- Exits the program
 
 Ping-- Sends request to server to test connection
+
+--------------------------------------------------------------------------------------------
