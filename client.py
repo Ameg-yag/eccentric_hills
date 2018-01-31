@@ -9,7 +9,6 @@ with open(DIRECTORY+"/help.txt", 'r') as inputhandle:
     HELPPROMPT = inputhandle.read()
 
 def main():
-    cmd = ""
     connection = socket.socket()
 
     while True:
