@@ -10,4 +10,4 @@ Collaboration project between Gunnar Jones, Austin Crinklaw, and Zachary Passmor
 * Python was chosen as both developers wish to expand knowledge in the language as well as network based scripting and tools.
 
 ### Disclaimer
-* This project is made for educational purposes only and will be used in a controlled environment. Malicious use of this tool is prohibited.
+This project is made for educational purposes only and will be used in a controlled environment. Malicious use of this tool is prohibited.
