@@ -54,7 +54,6 @@ def handleClient(clientSocket):
         shell()
     else:
         clientSocket.close()
-        main()
 
 
 
