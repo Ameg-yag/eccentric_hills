@@ -2,9 +2,10 @@ import socket
 import sys
 import os
 
+#Might want to change default port at some point
 PORT = 6669
-DIRECTORY = os.path.dirname(os.path.realpath(__file__))
-with open(DIRECTORY+"/help.txt", 'r') as inputhandle:
+CURR_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
+with open(CURR_DIRECTORY+"/help.txt", 'r') as inputhandle:
     HELPPROMPT = inputhandle.read()
 
 def main():
