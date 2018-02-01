@@ -29,10 +29,11 @@ def main():
 
         elif cmd == "quit":
             try:
+                connection.send("quit")
                 connection.shutdown(socket.SHUT_RDWR)
                 connection.close()
             except:
-                print("No connection to close. Terminating program.")
+                print "No connection to close. Terminating program."
             sys.exit(0)
 
         else:
