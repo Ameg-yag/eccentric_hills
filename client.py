@@ -2,7 +2,6 @@ import socket
 import sys
 import os
 
-HOST = ""
 PORT = "6669"
 DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 with open(DIRECTORY+"/help.txt", 'r') as inputhandle:
@@ -18,9 +17,9 @@ def main():
             print HELPPROMPT
 
         elif cmd == "connect":
-            HOST = raw_input("Enter host IP address: ")
+            host = raw_input("Enter host IP address: ")
             try:
-                connection.connect((HOST, PORT))
+                connection.connect((host, PORT))
             except socket.error:
                 #Change this later to do something instead
                 sys.exit(1)
