@@ -45,8 +45,8 @@ def shell():
         else:
             output = commands(buffer)
             clientSocket.send(output)
-
-
+#aaaa
+#aaaa
 #Client Handler, require predetermined hash/passphrase to establish connection
 def handleClient(clientSocket):
     hashpass = clientSocket.recv(1024)
