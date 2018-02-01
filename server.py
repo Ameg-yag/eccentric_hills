@@ -46,6 +46,7 @@ def shell():
             output = commands(buffer)
             clientSocket.send(output)
 
+#REE
 
 #Client Handler, require predetermined hash/passphrase to establish connection
 def handleClient(clientSocket):
