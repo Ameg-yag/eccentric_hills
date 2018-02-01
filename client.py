@@ -2,7 +2,7 @@ import socket
 import sys
 import os
 
-PORT = "6669"
+PORT = 6669
 DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 with open(DIRECTORY+"/help.txt", 'r') as inputhandle:
     HELPPROMPT = inputhandle.read()
@@ -21,12 +21,17 @@ def main():
             try:
                 connection.connect((host, PORT))
             except socket.error:
-                #Change this later to do something instead
-                sys.exit(1)
+                print "Failed to connect to host IP."
+                userChoice = raw_input("Exit? Y/N"+'\n').lower()
+                if userChoice == "y":
+                    sys.exit(0)
 
         elif cmd == "quit":
-            connection.shutdown(socket.SHUT_RDWR)
-            connection.close()
+            try:
+                connection.shutdown(socket.SHUT_RDWR)
+                connection.close()
+            except:
+                print("No connection to close. Terminating program.")
             sys.exit(0)
 
         else:
