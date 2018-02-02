@@ -21,11 +21,15 @@ server.listen(3)
 def commands(command):
     command = command.rstrip()
     if command[0] != "!":
-        result = str(subprocess.call(command, shell=True))
-        return result
+        try:
+            result =  subprocess.check_output(command,stderr=subprocess.
+STDOUT, shell=True)
+        except:
+            result = "Failed to execute command.\n"
     elif command[0] == "!":
         command = command[1:]
-        print "nibba punch"
+        result = "nibba punch"
+    return result
     else:
         print "\nNgr wtf did you do, this should literally be impossible to call\n"
         sys.exit(1)
