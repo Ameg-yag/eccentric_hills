@@ -14,10 +14,15 @@ def listen(connection):
         #response from server
         buffer = ""
         while "^-^" not in buffer:
-            buffer += conn.recv(4096)
-        buffer = buffer[7:]
+            buffer += connection.recv(4096)
+        buffer = buffer[0:(len(buffer)-5)]
         print buffer
-        connection.send(raw_input())
+        command = raw_input()
+        if command == 'quit':
+            connection.send("quit")
+            break
+        else:
+            connection.send(command)
 
 def main():
     connection = socket.socket()
@@ -32,6 +37,7 @@ def main():
             host = raw_input("Enter server IP address: ")
             try:
                 connection.connect((host, PORT))
+                connection.send("gunclawpythonratniBBa")
                 server_data = listen(connection)
             except socket.error:
                 print "Failed to connect to host IP."
