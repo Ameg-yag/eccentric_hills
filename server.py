@@ -20,10 +20,12 @@ server.listen(3)
 
 def commands(command):
     command = command.rstrip()
+    print("Command equals: " + command)
     if command[0] != "!":
         try:
             result =  subprocess.check_output(command,stderr=subprocess.
 STDOUT, shell=True)
+            return result
         except:
             #TODO:Exception always thrown no matter what command is sent
             result = "Failed to execute command.\n"
@@ -48,7 +50,7 @@ def shell(clientSocket):
             buffer += clientSocket.recv(4096)
 
         #TODO:Use some terminating character and strip from string?
-        buffer.strip("#")
+        buffer = buffer[:-1]
         if buffer == 'quit':
             clientSocket.send("[*] Terminating Connection. Goodbye.")
             clientSocket.close()
