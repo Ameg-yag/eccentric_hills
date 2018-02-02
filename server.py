@@ -25,7 +25,9 @@ def commands(command):
             result =  subprocess.check_output(command,stderr=subprocess.
 STDOUT, shell=True)
         except:
+            #TODO:Exception always thrown no matter what command is sent
             result = "Failed to execute command.\n"
+            return result
 
     elif command[0] == "!":
         command = command[1:]
@@ -40,16 +42,19 @@ def shell(clientSocket):
     while True:
         clientSocket.send("\n^-^")
         buffer = ""
-        while "\n" not in buffer:
+        #TODO:While "/n" not in buffer does not work
+        while "#" not in buffer:
             clientSocket.send("Waiting for command")
             buffer += clientSocket.recv(4096)
 
+        #TODO:Use some terminating character and strip from string?
+        buffer.strip("#")
         if buffer == 'quit':
             clientSocket.send("[*] Terminating Connection. Goodbye.")
             clientSocket.close()
             break
 
-        #TODO: This breaks this script still, figure out why
+        #TODO: This breaks this script still, need to find out why
         elif buffer == "\n":
             continue
 
