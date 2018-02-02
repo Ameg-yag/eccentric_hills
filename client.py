@@ -12,14 +12,13 @@ def listen(connection):
     while True:
 
         #response from server
-        server_reply = conn.recv(4096)
+        buffer = ""
+        while "^-^" not in buffer:
+            buffer += conn.recv(4096)
+        buffer = buffer[7:]
+        print buffer
+        connection.send(raw_input())
 
-        if server_reply == "quit":
-            connection.shutdown(socket.SHUT_RDWR)
-            connection.close()
-            break
-        else:
-            print server_reply
 def main():
     connection = socket.socket()
     print HELPPROMPT
@@ -30,7 +29,7 @@ def main():
             print HELPPROMPT
 
         elif cmd == "connect":
-            host = raw_input("Enter host IP address: ")
+            host = raw_input("Enter server IP address: ")
             try:
                 connection.connect((host, PORT))
                 server_data = listen(connection)

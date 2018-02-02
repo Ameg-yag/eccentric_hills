@@ -34,7 +34,7 @@ def commands(command):
 #main server functions, command parsing
 def shell():
     while True:
-        clientSocket.send("ECHI> ")
+        clientSocket.send("\nECHI> ^-^")
         buffer = ""
         while "\n" not in buffer:
             buffer += clientSocket.recv(1024)
