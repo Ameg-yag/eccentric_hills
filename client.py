@@ -18,12 +18,13 @@ def listen(connection):
             connection.shutdown(socket.SHUT_RDWR)
             connection.close()
             break
-
+        else:
+            print server_reply
 def main():
     connection = socket.socket()
-
+    print HELPPROMPT
     while True:
-        cmd = raw_input("Enter command. Type 'help' for options."+'\n').lower()
+        cmd = raw_input("ECHI> ").lower()
 
         if cmd == "help":
             print HELPPROMPT
@@ -42,11 +43,7 @@ def main():
         elif cmd == "quit":
             try:
                 connection.send("quit")
-<<<<<<< HEAD
-                connection.shutdown(socket.SHUT_RDWR)
-                connection.close()
-=======
->>>>>>> 4a8af7e0da74928c942ab7606d6c5ba13418bbdf
+
             except:
                 print "No connection to close. Terminating program."
             sys.exit(0)
