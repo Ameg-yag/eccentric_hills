@@ -1,8 +1,13 @@
+#ECCENTRIC_HILLS - *NIX Client Deployment Binary
+#Written by Gunnar Jones - @gunSec and Austin Crinklaw - @acrinklaw
+#https://github.com/acrinklaw/eccentric_hills
 import socket
 import sys
 import os
+import time
 
 #Might want to change default port at some point
+TIMEOUT = 30
 PORT = 6669
 CURR_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 with open(CURR_DIRECTORY+"/help.txt", 'r') as inputhandle:
@@ -15,12 +20,18 @@ def listen(connection):
         buffer = ""
         while "^-^" not in buffer:
             buffer += connection.recv(4096)
-        buffer = buffer[0:(len(buffer)-3)]
-        print buffer
+            if buffer == "Waiting for command":
+                break
+
+        if buffer != "Waiting for command":
+            buffer = buffer[0:(len(buffer)-3)]
+            print buffer
+
         command = raw_input("ECHI.remote> ")
         if command == 'quit':
             connection.send("quit")
             break
+
         else:
             connection.send(command)
 
@@ -35,13 +46,15 @@ def main():
 
         elif cmd == "connect":
             host = raw_input("Enter server IP address: ")
+
             try:
                 connection.connect((host, PORT))
                 connection.send("gunclawpythonratniBBa")
                 listen(connection)
+
             except socket.error:
                 print "Failed to connect to host IP."
-                userChoice = raw_input("Exit? Y/N"+'\n').lower()
+                userChoice = raw_input("Exit? Y/N\n").lower()
                 if userChoice == "y":
                     sys.exit(0)
 
@@ -51,6 +64,7 @@ def main():
 
             except:
                 print "No connection to close. Terminating program."
+
             sys.exit(0)
 
         else:

