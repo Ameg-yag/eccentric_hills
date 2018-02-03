@@ -21,13 +21,15 @@ def listen(connection):
         while "^-^" not in buffer:
             buffer += connection.recv(4096)
             if buffer == "Waiting for command":
+                buffer = ""
                 break
 
         if buffer != "Waiting for command":
             buffer = buffer[0:(len(buffer)-3)]
             print buffer
 
-        command = raw_input("ECHI.remote> ")
+        command = raw_input("ECHI.remote> ") + '\n'
+        print "a" + command + "a"
         if command == 'quit':
             connection.send("quit")
             break

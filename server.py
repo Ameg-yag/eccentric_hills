@@ -20,6 +20,7 @@ server.listen(3)
 
 def commands(command):
     command = command.rstrip()
+    #Debug statement
     print("Command equals: " + command)
     if command[0] != "!":
         try:
@@ -27,7 +28,6 @@ def commands(command):
 STDOUT, shell=True)
             return result
         except:
-            #TODO:Exception always thrown no matter what command is sent
             result = "Failed to execute command.\n"
             return result
 
@@ -45,7 +45,7 @@ def shell(clientSocket):
         clientSocket.send("\n^-^")
         buffer = ""
         #TODO:While "/n" not in buffer does not work
-        while "#" not in buffer:
+        while "\n" not in buffer:
             clientSocket.send("Waiting for command")
             buffer += clientSocket.recv(4096)
 
@@ -55,11 +55,8 @@ def shell(clientSocket):
             clientSocket.send("[*] Terminating Connection. Goodbye.")
             clientSocket.close()
             break
-
-        #TODO: This breaks this script still, need to find out why
         elif buffer == "\n":
             continue
-
         else:
             output = commands(buffer)
             clientSocket.send(output)
