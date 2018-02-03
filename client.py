@@ -15,33 +15,26 @@ with open(CURR_DIRECTORY+"/help.txt", 'r') as inputhandle:
 
 def listen(connection):
     while True:
-
-        #response from server
         buffer = ""
-        while "^-^" not in buffer:
-            buffer += connection.recv(4096)
-            if buffer == "Waiting for command":
-                buffer = ""
-                break
-
-        if buffer != "Waiting for command":
-            buffer = buffer[0:(len(buffer)-3)]
-            print buffer
-
-        command = raw_input("ECHI.remote> ") + '\n'
-        print "a" + command + "a"
-        if command == 'quit':
-            connection.send("quit")
+        while "!!" not in buffer:
+            buffer += connection.recv(1024)
+        buffer = buffer[:-2]
+        print buffer,
+        command = raw_input("")
+        if command == "quit":
+            connection.send("quit\n")
+            connection.close()
             break
-
         else:
+            command += "\n"
             connection.send(command)
+
 
 def main():
     connection = socket.socket()
     print HELPPROMPT
     while True:
-        cmd = raw_input("ECHI.local> ").lower()
+        cmd = raw_input("ECHI.localhost> ").lower()
 
         if cmd == "help":
             print HELPPROMPT
