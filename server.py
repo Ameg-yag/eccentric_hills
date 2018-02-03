@@ -41,7 +41,7 @@ STDOUT, shell=True)
 
     else:
         sys.exit(1)
-
+##
 #main server functions, command parsing
 def shell(clientSocket):
     while True:
