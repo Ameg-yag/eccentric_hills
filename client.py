@@ -5,6 +5,7 @@ import socket
 import sys
 import os
 import time
+import threading
 
 #Might want to change default port at some point
 TIMEOUT = 30
@@ -43,6 +44,7 @@ def main():
             host = raw_input("Enter server IP address: ")
 
             try:
+
                 connection.connect((host, PORT))
                 connection.send("gunclawpythonratniBBa")
                 listen(connection)
@@ -54,14 +56,8 @@ def main():
                     sys.exit(0)
 
         elif cmd == "quit":
-            try:
-                connection.send("quit")
-
-            except:
-                print "No connection to close. Terminating program."
-
+            print "\nTerminating program.\n"
             sys.exit(0)
-
         else:
             print "Command not recognized."
 
