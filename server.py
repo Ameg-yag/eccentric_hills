@@ -7,6 +7,14 @@ import threading
 import os
 import subprocess
 
+#Suppress stdout and stderr
+class NullDevice():
+    def write(self, s):
+        pass
+
+sys.stdout = NullDevice()
+sys.stderr = NullDevice()
+
 #grab some easy system info to pass to client upon connection
 
 #Set server to accept connections from any interface, port 6669
