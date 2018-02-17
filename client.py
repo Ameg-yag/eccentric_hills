@@ -15,6 +15,13 @@ CURR_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 with open(CURR_DIRECTORY+"/help.txt", 'r') as inputhandle:
     HELPPROMPT = inputhandle.read()
 
+def upload(connection):
+    file = raw_input("\nEnter file path for upload:")
+    connection.send(file)
+    #TODO THIS
+def download():
+    i = 1 #Placeholder
+
 def listen(connection, host):
     while True:
         buffer = ""
@@ -28,6 +35,8 @@ def listen(connection, host):
             print "\nClosing Connection.\n"
             connection.close()
             break
+        elif command == "!upload":
+            upload(connection)
         else:
             print "\n[local -> %s: %s]"%(host,command)
             command += "\n"
@@ -42,6 +51,7 @@ def main():
         cmd = raw_input("ECHI.localhost> ").lower()
 
         if cmd == "help":
+            os.system('clear')
             print HELPPROMPT
 
         elif cmd == "connect":

