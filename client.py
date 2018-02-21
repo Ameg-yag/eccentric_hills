@@ -6,7 +6,7 @@ import sys
 import os
 import time
 import threading
-
+import binascii
 
 #Might want to change default port at some point
 TIMEOUT = 30
@@ -16,8 +16,8 @@ with open(CURR_DIRECTORY+"/help.txt", 'r') as inputhandle:
     HELPPROMPT = inputhandle.read()
 
 def upload(connection):
-    file = raw_input("\nEnter file path for upload:")
-    connection.send(file)
+
+
     #TODO THIS
 def download():
     i = 1 #Placeholder
@@ -35,8 +35,10 @@ def listen(connection, host):
             print "\nClosing Connection.\n"
             connection.close()
             break
-        elif command == "!upload":
+        elif "download" in command:
             upload(connection)
+        elif "download" in command:
+
         else:
             print "\n[local -> %s: %s]"%(host,command)
             command += "\n"
