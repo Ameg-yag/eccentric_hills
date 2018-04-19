@@ -1,6 +1,6 @@
 #ECCENTRIC_HILLS - *NIX Server Deployment Binary
 #Written by Gunnar Jones - @gunSec and Austin Crinkaw - @acrinklaw
-#https://github.com/acrinklaw/eccentric_hills
+#https://github.com/gunSec/eccentric_hills
 #grabbing our libraries
 import socket
 import threading
