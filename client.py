@@ -1,6 +1,6 @@
 #ECCENTRIC_HILLS - *NIX Client Deployment Binary
 #Written by Gunnar Jones - @gunSec and Austin Crinklaw - @acrinklaw
-#https://github.com/acrinklaw/eccentric_hills
+#https://github.com/gunSec/eccentric_hills
 import socket
 import sys
 import os
