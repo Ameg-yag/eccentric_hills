@@ -18,9 +18,13 @@ CURR_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 with open(CURR_DIRECTORY+"/help.txt", 'r') as inputhandle:
     HELPPROMPT = inputhandle.read()
 
-
+"""
+Sends data to server
+"""
 def upload(connection, file_path):
+    #Get file size for progress bar
     file_size = os.path.getsize(file_path)
+    #Send data over socket
     with open(file_path, 'rb') as ih:
         with tqdm(total=file_size) as pbar:
             data = ih.read(1024)

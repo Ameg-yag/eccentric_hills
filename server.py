@@ -19,12 +19,14 @@ server.bind((BINDIP,BINDPORT))
 
 IP = subprocess.check_output("ip a",stderr=subprocess.
 STDOUT, shell=True)
-IP = str(re.findall( r'[0-9]+(?:.[0-9]+){3}', IP)[0])
+IP = str(re.findall( r'[0-9]+(?:.[0-9]+){3}', IP)[2])
 
 #server can handle up to 3 concurrent sessions
 server.listen(3)
 
-
+"""
+Writes data from client to server current directory
+"""
 def upload(client_socket):
     with open("./file", 'wb') as oh:
         data = client_socket.recv(1024)
