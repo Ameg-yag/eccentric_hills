@@ -3,6 +3,7 @@
 ## Description
 
 Collaboration project between Gunnar Jones and Austin Crinklaw. It is a  simple, cross-platform python remote access tool.
+* Will maybe be worked on/finished eventually?
 
 ## Dependencies
 * TQDM - Provides status bar for client to server file upload
